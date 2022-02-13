@@ -73,13 +73,13 @@ export const useQRScanResult = (rawQRInputs: string[]) => {
       throw new Error("Missing SMART health card data")
     }
 
-    const jwksContent = numericallyEncodedContent
+    const jwsContent = numericallyEncodedContent
       .map(num => String.fromCharCode(parseInt(num, 10) + 45))
       .join('')
 
-    console.log('jwksContent', jwksContent)
+    console.log('jwksContent', jwsContent)
 
-    const [,payload,] = jwksContent.split('.');
+    const [,payload,] = jwsContent.split('.');
     const decodedPayload = Buffer.from(payload, 'base64');
     const decompressedCard = zlib.inflateRawSync(decodedPayload);
     const cardJson = JSON.parse(decompressedCard.toString());
@@ -99,7 +99,7 @@ export const useQRScanResult = (rawQRInputs: string[]) => {
       console.log(issuerPubkey)
 
       const importedPubkey = KEYUTIL.getKey(issuerPubkey.keys[0])
-      const isValidJwks = jws.JWS.verify(jwksContent, importedPubkey, ["ES256"])
+      const isValidJwks = jws.JWS.verify(jwsContent, importedPubkey, ["ES256"])
 
       if (isValidJwks && trustedIssuer) {
         result.verification.status = VerificationStatus.Verified
