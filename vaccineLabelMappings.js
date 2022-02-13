@@ -1,4 +1,5 @@
 export const cvxToVaxTradename = {
+  "207": "Moderna Spikevax COVID-19 mRNA",
   "208": "Pfizer-BioNTech Comirnaty COVID-19 mRNA",
   "210": "AstraZeneca Vaxzevria COVID-19",
   "212": "Janssen Johnson & Johnson COVID-19",
